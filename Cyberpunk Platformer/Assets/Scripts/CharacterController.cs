@@ -4,19 +4,26 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    [SerializeField]float movementSmoothing = .05f;
-
     private Rigidbody2D characterRb;
 
-    private float speed = 5f;
+    [SerializeField] float speed = 5f;
+    [SerializeField] float runningSpeed = 10f;
     private float moveInput;
+    [SerializeField] float movementSmoothing = .05f;
+    private Vector3 refVelocity = Vector3.zero;
 
     private bool isGrounded;
     [SerializeField] Transform groundCheck;
     [SerializeField] float checkRadius = 0.75f;
     [SerializeField] LayerMask whatIsGround;
     [SerializeField] float jumpForce = 5f;
-    [SerializeField] int extraJumps = 2;
+    [SerializeField] float longFallMulti = 2.5f;
+    [SerializeField] int maxJumps = 2;
+    [SerializeField] int extraJumps;
+    private float jumpTime;
+    private float groundTime;
+    [SerializeField] float rememberJumpTime = 0.2f;
+    [SerializeField] float rememberGroundTime = 0.2f;
 
     private void Awake()
     {
@@ -27,26 +34,65 @@ public class CharacterController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
+    }
+
+    private void GroundMovement()
+    {
         moveInput = Input.GetAxis("Horizontal");
-        characterRb.velocity = new Vector2(moveInput * speed, characterRb.velocity.y);
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Vector3 targetVelocity = new Vector2(moveInput * runningSpeed, characterRb.velocity.y);
+            characterRb.velocity = Vector3.SmoothDamp(characterRb.velocity, targetVelocity, ref refVelocity, movementSmoothing);
+        }
+        else
+        {
+            Vector3 targetVelocity = new Vector2(moveInput * speed, characterRb.velocity.y);
+            characterRb.velocity = Vector3.SmoothDamp(characterRb.velocity, targetVelocity, ref refVelocity, movementSmoothing);
+        }
+
     }
 
     private void Update()
     {
+        Jump();
+        GroundMovement();
+    }
 
+    private void Jump()
+    {
+        jumpTime -= Time.deltaTime;
+        groundTime -= Time.deltaTime;
+
+        if (isGrounded == true)
+        {
+            extraJumps = maxJumps;
+            groundTime = rememberGroundTime;
+        }
 
         if (Input.GetKeyDown("space") || Input.GetKeyDown("w"))
         {
-            if (isGrounded == true)
-            {
-                extraJumps = 2;
-            }
+            jumpTime = rememberJumpTime;
 
-            if (extraJumps > 0)
+            if (isGrounded == true || groundTime > 0)
             {
-                characterRb.velocity = Vector2.up * jumpForce;
-                extraJumps--;
+                if (extraJumps > 0 && jumpTime > 0)
+                {
+                    jumpTime = 0;
+                    characterRb.velocity = Vector2.up * jumpForce;
+                }
+            }
+            else if (isGrounded == false)
+            {
+                if (extraJumps > 0 && jumpTime > 0)
+                {
+                    jumpTime = 0;
+                    characterRb.velocity = Vector2.up * jumpForce;
+                    extraJumps--;
+                }
             }
         }
+
+        characterRb.velocity += Vector2.up * Physics2D.gravity.y * (longFallMulti - 1) * Time.deltaTime;
     }
 }
