@@ -812,7 +812,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 7
-  runningSpeed: 12
   movementSmoothing: 0.01
   groundCheck: {fileID: 1604739802}
   checkRadius: 0.5
@@ -839,3 +838,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dashSpeed: 50
   startDashTime: 0.1
+  groundCheck: {fileID: 1604739802}
+  checkRadius: 0.2
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 256

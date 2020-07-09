@@ -10,47 +10,66 @@ public class DashAbility : MonoBehaviour
     public float startDashTime;
     private int direction;
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] bool airDash;
+
+    private bool isGrounded;
+    [SerializeField] Transform groundCheck;
+    [SerializeField] float checkRadius = 0.75f;
+    [SerializeField] LayerMask whatIsGround;
+
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         dashTime = startDashTime;
     }
 
-    // Update is called once per frame
+    private void FixedUpdate()
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+    }
+
     void Update()
     {
-        if (direction == 0)
-        {
+        Dash();
+    }
 
-            if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                direction = 1;
-            }
-            if (Input.GetKey(KeyCode.RightArrow) && Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                direction = 2;
-            }
-        }
-        else
+    private void Dash()
+    {
+        if (airDash || isGrounded)
         {
-            if(dashTime<=0)
+            if (direction == 0)
             {
-                direction = 0;
-                dashTime = startDashTime;
-                rb.velocity = Vector2.zero;
+                if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && Input.GetKeyDown(KeyCode.LeftShift))
+                {
+                    Debug.Log("Left");
+                    direction = 1;
+                }
+                if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && Input.GetKeyDown(KeyCode.LeftShift))
+                {
+                    direction = 2;
+                    Debug.Log("Right");
+                }
             }
             else
             {
-                dashTime -= Time.deltaTime;
-
-                if(direction == 1)
+                if (dashTime <= 0)
                 {
-                    rb.velocity = Vector2.left * dashSpeed;
+                    direction = 0;
+                    dashTime = startDashTime;
+                    rb.velocity = Vector2.zero;
                 }
-                else if (direction == 2)
+                else
                 {
-                    rb.velocity = Vector2.right * dashSpeed;
+                    dashTime -= Time.deltaTime;
+
+                    if (direction == 1)
+                    {
+                        rb.velocity = Vector2.left * dashSpeed;
+                    }
+                    else if (direction == 2)
+                    {
+                        rb.velocity = Vector2.right * dashSpeed;
+                    }
                 }
             }
         }
