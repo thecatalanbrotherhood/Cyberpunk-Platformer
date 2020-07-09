@@ -7,7 +7,7 @@ public class CharacterController : MonoBehaviour
     private Rigidbody2D characterRb;
 
     [SerializeField] float speed = 5f;
-    [SerializeField] float runningSpeed = 10f;
+    //[SerializeField] float runningSpeed = 10f;
     private float moveInput;
     [SerializeField] float movementSmoothing = .05f;
     private Vector3 refVelocity = Vector3.zero;
@@ -40,16 +40,13 @@ public class CharacterController : MonoBehaviour
     {
         moveInput = Input.GetAxis("Horizontal");
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Vector3 targetVelocity = new Vector2(moveInput * runningSpeed, characterRb.velocity.y);
-            characterRb.velocity = Vector3.SmoothDamp(characterRb.velocity, targetVelocity, ref refVelocity, movementSmoothing);
-        }
-        else
-        {
+        
+            //Vector3 targetVelocity = new Vector2(moveInput * runningSpeed, characterRb.velocity.y);
+            //characterRb.velocity = Vector3.SmoothDamp(characterRb.velocity, targetVelocity, ref refVelocity, movementSmoothing);
+       
             Vector3 targetVelocity = new Vector2(moveInput * speed, characterRb.velocity.y);
             characterRb.velocity = Vector3.SmoothDamp(characterRb.velocity, targetVelocity, ref refVelocity, movementSmoothing);
-        }
+        
 
     }
 
