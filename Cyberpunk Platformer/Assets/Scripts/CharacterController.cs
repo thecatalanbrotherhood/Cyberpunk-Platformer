@@ -74,15 +74,7 @@ public class CharacterController : MonoBehaviour
         {
             jumpTime = rememberJumpTime;
 
-            if (isGrounded == true || groundTime > 0)
-            {
-                if (extraJumps > 0 && jumpTime > 0)
-                {
-                    jumpTime = 0;
-                    characterRb.velocity = Vector2.up * jumpForce;
-                }
-            }
-            else if (isGrounded == false)
+            if (isGrounded == false)
             {
                 if (extraJumps > 0 && jumpTime > 0)
                 {
@@ -90,6 +82,15 @@ public class CharacterController : MonoBehaviour
                     characterRb.velocity = Vector2.up * jumpForce;
                     extraJumps--;
                 }
+            }
+        }
+
+        if (isGrounded == true || groundTime > 0)
+        {
+            if (extraJumps > 0 && jumpTime > 0)
+            {
+                jumpTime = 0;
+                characterRb.velocity = Vector2.up * jumpForce;
             }
         }
 
