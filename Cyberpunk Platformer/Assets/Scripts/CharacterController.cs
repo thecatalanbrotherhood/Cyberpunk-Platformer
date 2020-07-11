@@ -25,6 +25,18 @@ public class CharacterController : MonoBehaviour
     [SerializeField] float rememberJumpTime = 0.2f;
     [SerializeField] float rememberGroundTime = 0.2f;
 
+    //Health values
+    public int maxHealth = 5;
+    public int currentHealth;
+    public HealthBar healthBar;
+
+    private void Start()
+    {
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+    }
+
+
     private void Awake()
     {
         characterRb = GetComponent<Rigidbody2D>();
@@ -54,6 +66,16 @@ public class CharacterController : MonoBehaviour
     {
         Jump();
         GroundMovement();
+        if (Input.GetKeyDown("k"))
+        {
+            TakeDamage(1);
+        }
+    }
+
+    void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
     }
 
     private void Jump()
