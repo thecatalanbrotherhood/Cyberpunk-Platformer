@@ -34,6 +34,8 @@ public class SpiderRope : MonoBehaviour
 
         
         parentRb = ropePosition.transform.parent.GetComponent<Rigidbody2D>();
+
+
     }
 
     // Update is called once per frame
@@ -48,12 +50,12 @@ public class SpiderRope : MonoBehaviour
             transform.position = (Vector2)ropePosition.position + dir;
             pull = false;
             update = true;
-        }
 
-        if(timer != null)
-        {
-            StopCoroutine(timer);
-            timer = null;
+            if (timer != null)
+            {
+                StopCoroutine(timer);
+                timer = null;
+            }
         }
 
         if (!update)
