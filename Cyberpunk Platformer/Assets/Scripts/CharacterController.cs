@@ -11,6 +11,7 @@ public class CharacterController : MonoBehaviour
     private float moveInput;
     [SerializeField] float movementSmoothing = .05f;
     private Vector3 refVelocity = Vector3.zero;
+    private bool facingRight = true;
 
     private bool isGrounded;
     [SerializeField] Transform groundCheck;
@@ -39,7 +40,6 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-
     private void Awake()
     {
         characterRb = GetComponent<Rigidbody2D>();
@@ -48,21 +48,6 @@ public class CharacterController : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-
-    }
-
-    private void GroundMovement()
-    {
-        moveInput = Input.GetAxis("Horizontal");
-
-        
-            //Vector3 targetVelocity = new Vector2(moveInput * runningSpeed, characterRb.velocity.y);
-            //characterRb.velocity = Vector3.SmoothDamp(characterRb.velocity, targetVelocity, ref refVelocity, movementSmoothing);
-       
-            Vector3 targetVelocity = new Vector2(moveInput * speed, characterRb.velocity.y);
-            characterRb.velocity = Vector3.SmoothDamp(characterRb.velocity, targetVelocity, ref refVelocity, movementSmoothing);
-        
-
     }
 
     private void Update()
@@ -73,6 +58,30 @@ public class CharacterController : MonoBehaviour
         {
             TakeDamage(1);
         }
+    }
+
+    private void GroundMovement()
+    {
+        moveInput = Input.GetAxis("Horizontal");
+        Vector3 targetVelocity = new Vector2(moveInput * speed, characterRb.velocity.y);
+        characterRb.velocity = Vector3.SmoothDamp(characterRb.velocity, targetVelocity, ref refVelocity, movementSmoothing);
+        if (moveInput > 0 && !facingRight)
+        {
+            Flip();
+        }
+        else if (moveInput < 0 && facingRight)
+        {
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        facingRight = !facingRight;
+
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
     }
 
     void TakeDamage(int damage)
@@ -115,7 +124,6 @@ public class CharacterController : MonoBehaviour
                 characterRb.velocity = Vector2.up * jumpForce;
             }
         }
-
         characterRb.velocity += Vector2.up * Physics2D.gravity.y * (longFallMulti - 1) * Time.deltaTime;
     }
 }

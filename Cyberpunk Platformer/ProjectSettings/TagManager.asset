@@ -15,8 +15,8 @@ TagManager:
   - 
   - Grounded
   - Rope
-  - 
-  - 
+  - PickUpSolidObject
+  - Player
   - 
   - 
   - 
