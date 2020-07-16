@@ -58,6 +58,11 @@ public class CharacterController : MonoBehaviour
         {
             TakeDamage(1);
         }
+
+        if(isGrounded && Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("Grounded");
+        }
     }
 
     private void GroundMovement()

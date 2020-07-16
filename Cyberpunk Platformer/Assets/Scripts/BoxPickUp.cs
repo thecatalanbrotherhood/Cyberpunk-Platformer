@@ -28,7 +28,7 @@ public class BoxPickUp : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(1) && pickedUp)
         {
-            Debug.Log("Droped");
+            gameObject.layer = 10;
             gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
             gameObject.transform.SetParent(null);
             pickedUp = false;
@@ -37,10 +37,9 @@ public class BoxPickUp : MonoBehaviour
 
     IEnumerator PickUp()
     {
-        Debug.Log("PickedUp");
+        gameObject.layer = 0;
         gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
         gameObject.transform.SetParent(player.transform);
-        //gameObject.transform.position = GameObject.Find("GrabPoint").transform.position;
         gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 0.3f, gameObject.transform.position.z);
         yield return new WaitForSeconds(0.1f);
         pickedUp = true;
@@ -52,7 +51,6 @@ public class BoxPickUp : MonoBehaviour
         {
             inPickupRange = true;
             player = collision.gameObject;
-            Debug.Log("inRange");
         }
     }
 
@@ -62,7 +60,6 @@ public class BoxPickUp : MonoBehaviour
         {
             inPickupRange = false;
             player = null;
-            Debug.Log("outRange");
         }
     }
 }
