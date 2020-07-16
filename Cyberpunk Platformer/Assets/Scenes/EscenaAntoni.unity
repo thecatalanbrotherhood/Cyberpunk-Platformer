@@ -1366,7 +1366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mat: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  armPos: {fileID: 49077140}
+  ropePosition: {fileID: 49077140}
   lineWidth: 0.1
   speed: 75
   pullForce: 50
