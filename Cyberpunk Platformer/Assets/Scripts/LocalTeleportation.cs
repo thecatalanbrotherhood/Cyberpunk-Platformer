@@ -19,7 +19,10 @@ public class LocalTeleportation : MonoBehaviour
     IEnumerator Teleport()
     {
         yield return new WaitForSeconds(0.5f);
-        objectInTeleporter.transform.position = new Vector2(teleporter.transform.position.x, teleporter.transform.position.y);        
+        if (objectInTeleporter != null)
+        {
+            objectInTeleporter.transform.position = new Vector2(teleporter.transform.position.x, teleporter.transform.position.y);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
