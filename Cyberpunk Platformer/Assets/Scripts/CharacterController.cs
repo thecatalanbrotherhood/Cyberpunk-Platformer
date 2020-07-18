@@ -31,6 +31,8 @@ public class CharacterController : MonoBehaviour
     public int currentHealth;
     public HealthBar healthBar;
 
+    public bool isActive = true;
+
     private void Start()
     {
         if (healthBar != null)
@@ -52,16 +54,19 @@ public class CharacterController : MonoBehaviour
 
     private void Update()
     {
-        Jump();
-        GroundMovement();
-        if (Input.GetKeyDown("k"))
+        if (isActive)
         {
-            TakeDamage(1);
-        }
+            Jump();
+            GroundMovement();
+            if (Input.GetKeyDown("k"))
+            {
+                TakeDamage(1);
+            }
 
-        if(isGrounded && Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("Grounded");
+            if (isGrounded && Input.GetKeyDown(KeyCode.E))
+            {
+                Debug.Log("Grounded");
+            }
         }
     }
 

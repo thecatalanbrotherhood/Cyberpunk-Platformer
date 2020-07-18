@@ -10,7 +10,8 @@ public class DashAbility : MonoBehaviour
     public float startDashTime;
     private int direction;
 
-    [SerializeField] bool airDash;
+    public bool airDash = false;
+    public bool dashEnabled = true;
 
     private bool isGrounded;
     [SerializeField] Transform groundCheck;
@@ -35,19 +36,17 @@ public class DashAbility : MonoBehaviour
 
     private void Dash()
     {
-        if (airDash || isGrounded)
+        if ((airDash || isGrounded) && dashEnabled)
         {
             if (direction == 0)
             {
                 if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && Input.GetKeyDown(KeyCode.LeftShift))
                 {
-                    Debug.Log("Left");
                     direction = 1;
                 }
                 if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && Input.GetKeyDown(KeyCode.LeftShift))
                 {
                     direction = 2;
-                    Debug.Log("Right");
                 }
             }
             else
