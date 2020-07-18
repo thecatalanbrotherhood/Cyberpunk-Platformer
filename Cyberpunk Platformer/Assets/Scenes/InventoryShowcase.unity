@@ -294,6 +294,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 725437793, guid: 5ffb64beba8a3af4486a50b8c98605e7, type: 3}
+      propertyPath: dashEnabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1234571533806297366, guid: 5ffb64beba8a3af4486a50b8c98605e7,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -409,4 +413,4 @@ MonoBehaviour:
   redShoes: {fileID: 21300000, guid: ebb9b2bb0012f5b4b912b882d24994ec, type: 3}
   blueShoes: {fileID: 21300000, guid: 6d39fce4edd4e8c40b25434d638af4a9, type: 3}
   greenGloves: {fileID: 21300000, guid: a3b5be8dd210bf547903e2fa8f275cc3, type: 3}
-  inventoryCameraZoom: 5
+  inventoryCameraZoom: 1.2
