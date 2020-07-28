@@ -11,7 +11,7 @@ public class LocalTeleportation : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("e") && inTeleporter)
+        if (Input.GetKeyDown(KeyCode.E) && inTeleporter)
         {
             StartCoroutine(Teleport());
         }
@@ -19,8 +19,10 @@ public class LocalTeleportation : MonoBehaviour
     IEnumerator Teleport()
     {
         yield return new WaitForSeconds(0.5f);
+        Debug.Log(objectInTeleporter);
         if (objectInTeleporter != null)
         {
+
             objectInTeleporter.transform.position = new Vector2(teleporter.transform.position.x, teleporter.transform.position.y);
         }
     }
@@ -28,7 +30,10 @@ public class LocalTeleportation : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         inTeleporter = true;
-        objectInTeleporter = collision.GetComponent<Rigidbody2D>();
+        if(objectInTeleporter == null)
+        {
+            objectInTeleporter = collision.GetComponent<Rigidbody2D>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

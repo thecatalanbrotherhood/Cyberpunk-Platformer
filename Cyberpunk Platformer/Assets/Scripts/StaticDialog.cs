@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Dialog : MonoBehaviour
+public class StaticDialog : MonoBehaviour
 {
     public TextMeshProUGUI textDisplay;
     public string[] sentences;
@@ -42,7 +42,7 @@ public class Dialog : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && isTyping == false && inRange == true)
         {
-            if (index < sentences.Length - 1)
+            if (index < sentences.Length)
             {
                 textDisplay.text = "";
                 StartCoroutine(Type());
@@ -51,7 +51,9 @@ public class Dialog : MonoBehaviour
             else
             {
                 textDisplay.text = "";
+                index = 0;
                 StartCoroutine(Type());
+                index++;
             }
         }
     }
